@@ -11,7 +11,7 @@
       <div class="screen" id="start-screen">
         <h1>Quiz Game</h1>
         <p>welcome to my quiz game</p>
-        <button id="start-btn">Start quiz</button>
+        <button class="start-btn">Start quiz</button>
       </div>
 
       <div class="screen" id="quiz-screen">
@@ -19,13 +19,13 @@
           <h2 class="question-text">Question goes here</h2>
           <div class="score-container">
             <p>
-              Curent question <span class="question-current">1</span> of
-              <span class="question-total">5</span>
+              Curent question <span id="question-current">1</span> of
+              <span id="question-total">5</span>
             </p>
-            <p>score: <span class="score-current">1</span></p>
+            <p>score: <span id="score">1</span></p>
           </div>
         </div>
-        <div class="question-container">
+        <div class="answer-container">
           <div class="answer-btn">hey tehre</div>
           <!-- QUESTION GOES HERE FROM JS CODE -->
         </div>
@@ -38,12 +38,12 @@
         <h1>You finished the quiz, good job</h1>
         <div class="result-info">
           <p>
-            your score is <span class="score-current">1</span> out of
-            <span id="score-total">5</span>
+            your score is <span id="score-final">1</span> out of
+            <span id="score-max">5</span>
           </p>
           <p class="score-message">You are a genius</p>
         </div>
-        <button id="restart-btn">Restart quiz</button>
+        <button class="restart-btn">Restart quiz</button>
       </div>
     </div>
 
