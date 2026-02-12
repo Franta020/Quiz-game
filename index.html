@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="screen" id="start-screen">
+        <h1>Quiz Game</h1>
+        <p>welcome to my quiz game</p>
+        <button id="start-btn">Start quiz</button>
+      </div>
+
+      <div class="screen" id="quiz-screen">
+        <div class="quiz-header">
+          <h2 class="question-text">Question goes here</h2>
+          <div class="score-container">
+            <p>
+              Curent question <span class="question-current">1</span> of
+              <span class="question-total">5</span>
+            </p>
+            <p>score: <span class="score-current">1</span></p>
+          </div>
+        </div>
+        <div class="question-container">
+          <div class="answer-btn">hey tehre</div>
+          <!-- QUESTION GOES HERE FROM JS CODE -->
+        </div>
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
+      </div>
+
+      <div class="screen active" id="finish-screen">
+        <h1>You finished the quiz, good job</h1>
+        <div class="result-info">
+          <p>
+            your score is <span class="score-current">1</span> out of
+            <span id="score-total">5</span>
+          </p>
+          <p class="score-message">You are a genius</p>
+        </div>
+        <button id="restart-btn">Restart quiz</button>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
