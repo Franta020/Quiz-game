@@ -3,7 +3,7 @@ const startScreen = $("#start-screen");
 const quizScreen = $("#quiz-screen");
 const finishScreen = $("#finish-screen");
 const startButton = $(".start-btn");
-const questionText = $("#question-text");
+const questionText = $(".question-text");
 const answerContainer = $(".answer-container");
 const questionCurrent = $("#question-current");
 const questionTotal = $("#question-total");
@@ -78,6 +78,7 @@ startButton.click(() => {
 });
 
 function startQuiz() {
+  resetScore();
   startScreen.removeClass("active");
   quizScreen.addClass("active");
   loadQuestion();
@@ -88,8 +89,7 @@ restartButton.click(() => {
 });
 
 function resetQuiz() {
-  currentQuestionIndex = 0;
-  score = 0;
+  resetScore();
   answersDisabled = false;
   progressBar.css("width", "0%");
   startScreen.addClass("active");
@@ -106,7 +106,27 @@ function startQuiz() {
 function loadQuestion() {
   const currentQuestion = quizQuestions[currentQuestionIndex];
   questionText.text(currentQuestion.question);
-  answerContainer.empty();
+  answerContainer.empty();  
+  var answers = quizQuestions[currentQuestionIndex].answers;
+  answers.forEach((answer, index) => { 
+        answerContainer.append("<div class='answer-btn'>" + answer.text + "</div>");
+    })
+  }
 
-  });
-}
+  function checkAnswer () {
+    $(".answer-btn").on("click", () => {
+      console.log();
+      $(".answer-btn").off("click");
+   })
+      
+  }
+
+  function resetScore()
+  {
+    currentQuestionIndex = 0;
+    score = 0;
+    scoreCurrent.text(score);
+    questionCurrent.text(currentQuestionIndex +1 );
+  }
+
+
