@@ -99,6 +99,7 @@ function resetQuiz() {
 function loadQuestion() {
   const currentQuestion = quizQuestions[currentQuestionIndex];
   questionText.text(currentQuestion.question);
+<<<<<<< HEAD
   updateProgress();
   answerContainer.empty();
   var answers = quizQuestions[currentQuestionIndex].answers;
@@ -123,10 +124,28 @@ function updateProgress() {
 =======
   answers.forEach((answer, index) => { 
         answerContainer.append("<div class='answer-btn'>" + answer.text + "</div>");
+=======
+  updateProgress(currentQuestion);
+  answerContainer.empty();  
+  currentQuestion.answers.forEach((answer) => { 
+        let button = document.createElement("div");
+        button.innerText = answer.text;
+        button.classList.add("answer-btn");
+        answerContainer.append(button);
+        console.log(button.text);
+>>>>>>> 93b6384 (buttons appear)
     })
     checkAnswer();
   }
   
+
+function updateProgress(currentQuestion) {
+  questionCurrent.text = currentQuestion.index + 1;
+  questionTotal.text = quizQuestions.length;
+  scoreCurrent.text = score;
+  let progressPercent = (currentQuestionIndex / quizQuestions.length)  * 100;
+  progressBar.css("width", progressPercent);
+}
 
   function checkAnswer () {
     $(".answer-btn").on("click", (event) => {
