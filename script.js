@@ -153,7 +153,6 @@ function checkAnswer () {
       score ++;
       currentQuestionIndex ++;
       loadQuestion();
-      console.log("that is correct")
     }
     else if (answer === "false") {
       event.target.classList.add("wrong");
