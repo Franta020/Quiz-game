@@ -1,0 +1,66 @@
+diff a/script.js b/script.js	(rejected hunks)
+@@ -99,39 +99,64 @@
+  function loadQuestion() {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    questionText.text(currentQuestion.question);
+ -  answerContainer.empty();  
+ +  updateProgress();
+ +  answerContainer.empty();
+    var answers = quizQuestions[currentQuestionIndex].answers;
+++<<<<<<< HEAD
+ +  answers.forEach((answer, index) => {
+ +    const button = answerContainer.append(
+ +      "<div class='answer-btn'>" + answer.text + "</div>",
+ +    );
+ +    /* button.dataset.correct = answer.correct; */
+ +    console.log(button.text());
+ +  });
+ +  checkAnswer();
+ +}
+ +
+ +function updateProgress() {
+ +  questionCurrent.text(currentQuestionIndex + 1);
+ +  questionTotal.text(quizQuestions.length);
+ +  scoreCurrent.text(score);
+ +  const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+ +  progressBar.css("width", progressPercent + "%");
+ +}
+++=======
++   answers.forEach((answer, index) => { 
++         answerContainer.append("<div class='answer-btn'>" + answer.text + "</div>");
++     })
++     checkAnswer();
++   }
++   
++ 
++   function checkAnswer () {
++     $(".answer-btn").on("click", (event) => {
++       console.log(event);
++       $(".answer-btn").off("click");
++    })
++       
++   }
++ 
++   function resetScore()
++   {
++     currentQuestionIndex = 0;
++     score = 0;
++     scoreCurrent.text(score);
++     questionCurrent.text(currentQuestionIndex +1 );
++   }
+++>>>>>>> 3a45fb4 (get the answer text)
+  
+ +function checkAnswer() {
+ +  $(".answer-btn").on("click", (event) => {
+ +    var selectedAnswer = $(event.target).data("correct");
+ +    console.log(selectedAnswer);
+ +    $(".answer-btn").off("click");
+ +  });
+ +}
+  
+ +function resetScore() {
+ +  currentQuestionIndex = 0;
+ +  score = 0;
+ +  scoreCurrent.text(score);
+ +  questionCurrent.text(currentQuestionIndex + 1);
+ +}

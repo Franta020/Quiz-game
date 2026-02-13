@@ -102,6 +102,7 @@ function loadQuestion() {
   updateProgress();
   answerContainer.empty();
   var answers = quizQuestions[currentQuestionIndex].answers;
+<<<<<<< HEAD
   answers.forEach((answer, index) => {
     const button = answerContainer.append(
       "<div class='answer-btn'>" + answer.text + "</div>",
@@ -119,6 +120,30 @@ function updateProgress() {
   const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
   progressBar.css("width", progressPercent + "%");
 }
+=======
+  answers.forEach((answer, index) => { 
+        answerContainer.append("<div class='answer-btn'>" + answer.text + "</div>");
+    })
+    checkAnswer();
+  }
+  
+
+  function checkAnswer () {
+    $(".answer-btn").on("click", (event) => {
+      console.log(event);
+      $(".answer-btn").off("click");
+   })
+      
+  }
+
+  function resetScore()
+  {
+    currentQuestionIndex = 0;
+    score = 0;
+    scoreCurrent.text(score);
+    questionCurrent.text(currentQuestionIndex +1 );
+  }
+>>>>>>> 3a45fb4 (get the answer text)
 
 function checkAnswer() {
   $(".answer-btn").on("click", (event) => {
