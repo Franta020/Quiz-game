@@ -73,6 +73,9 @@ scoreTotal.text(quizQuestions.length);
 
 resetQuiz();
 
+restartButton.click(() => {
+  resetQuiz();
+});
 startButton.click(() => {
   startQuiz();
 });
@@ -84,10 +87,6 @@ function startQuiz() {
   loadQuestion();
 }
 
-restartButton.click(() => {
-  resetQuiz();
-});
-
 function resetQuiz() {
   resetScore();
   answersDisabled = false;
@@ -97,36 +96,38 @@ function resetQuiz() {
   finishScreen.removeClass("active");
 }
 
-function startQuiz() {
-  startScreen.removeClass("active");
-  quizScreen.addClass("active");
-  loadQuestion();
-}
-
 function loadQuestion() {
   const currentQuestion = quizQuestions[currentQuestionIndex];
   questionText.text(currentQuestion.question);
-  answerContainer.empty();  
+  updateProgress();
+  answerContainer.empty();
   var answers = quizQuestions[currentQuestionIndex].answers;
-  answers.forEach((answer, index) => { 
-        answerContainer.append("<div class='answer-btn'>" + answer.text + "</div>");
-    })
-  }
+  answers.forEach((answer, index) => {
+    const element = answerContainer.append("<div></div>");
+    element.text(answer.text);
+    element.addClass("answer-btn");
+  });
+  checkAnswer();
+}
 
-  function checkAnswer () {
-    $(".answer-btn").on("click", () => {
-      console.log();
-      $(".answer-btn").off("click");
-   })
-      
-  }
+function updateProgress() {
+  questionCurrent.text(currentQuestionIndex + 1);
+  questionTotal.text(quizQuestions.length);
+  scoreCurrent.text(score);
+  const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+  progressBar.css("width", progressPercent + "%");
+}
 
-  function resetScore()
-  {
-    currentQuestionIndex = 0;
-    score = 0;
-    scoreCurrent.text(score);
-    questionCurrent.text(currentQuestionIndex +1 );
-  }
+function checkAnswer() {
+  $(".answer-btn").on("click", (event) => {
+    var selectedAnswer = $(event.target).text();
+    $(".answer-btn").off("click");
+  });
+}
 
-
+function resetScore() {
+  currentQuestionIndex = 0;
+  score = 0;
+  scoreCurrent.text(score);
+  questionCurrent.text(currentQuestionIndex + 1);
+}
