@@ -103,9 +103,11 @@ function loadQuestion() {
   answerContainer.empty();
   var answers = quizQuestions[currentQuestionIndex].answers;
   answers.forEach((answer, index) => {
-    const element = answerContainer.append("<div></div>");
-    element.text(answer.text);
-    element.addClass("answer-btn");
+    const button = answerContainer.append(
+      "<div class='answer-btn'>" + answer.text + "</div>",
+    );
+    /* button.dataset.correct = answer.correct; */
+    console.log(button.text());
   });
   checkAnswer();
 }
@@ -120,7 +122,8 @@ function updateProgress() {
 
 function checkAnswer() {
   $(".answer-btn").on("click", (event) => {
-    var selectedAnswer = $(event.target).text();
+    var selectedAnswer = $(event.target).data("correct");
+    console.log(selectedAnswer);
     $(".answer-btn").off("click");
   });
 }
