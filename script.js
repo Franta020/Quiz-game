@@ -132,34 +132,30 @@ function answerEvent(event) {
   if (answersDisabled) return;
   else {
     answersDisabled = true;
-    let answer = event.target.dataset.correct;
+    const answer = event.target.dataset.correct;
     if (answer === "true") {
-      animateResult(answer, event);
+      evaulateResult(answer, event);
     } else {
-      animateResult(answer, event);
+      evaulateResult(answer, event);
     }
   }
 }
 
-function animateResult(answer, event) {
+function evaulateResult(answer, event) {
   if (answer === "true") {
     event.target.classList.add("correct");
     score++;
     if (currentQuestionIndex === quizQuestions.length - 1) {
-      quizScreen.removeClass("active");
-      finishScreen.addClass("active");
-      generateResult();
+      setTimeout(generateResult, 1000);
     } else {
       currentQuestionIndex++;
       setTimeout(loadQuestion, 1000);
     }
   } else if (answer === "false") {
+    event.target.classList.add("wrong");
     if (currentQuestionIndex === quizQuestions.length - 1) {
-      quizScreen.removeClass("active");
-      finishScreen.addClass("active");
-      generateResult();
+      setTimeout(generateResult, 1000);
     } else {
-      event.target.classList.add("wrong");
       currentQuestionIndex++;
       setTimeout(loadQuestion, 1000);
     }
@@ -167,15 +163,18 @@ function animateResult(answer, event) {
 }
 
 function generateResult() {
+  quizScreen.removeClass("active");
+  finishScreen.addClass("active");
   scoreFinal.text(score);
+  const scoreInt = parseInt(scoreFinal.text());
   scoreTotal.text(quizQuestions.length);
-  if (scoreFinal.text() === "1") {
+  if (scoreInt === 1) {
     scoreMessage.text("You are as dumb as a dolphin");
-  } else if (scoreFinal.text() === "2") {
-    scoreMessage.text("You should realy learn some more");
-  } else if (scoreFinal.text() === "3") {
+  } else if (scoreInt === 2) {
+    scoreMessage.text("You may want to learn some more");
+  } else if (scoreInt === 3) {
     scoreMessage.text("You are not so dumb");
-  } else if (scoreFinal.text() === "4") {
+  } else if (scoreInt === 4) {
     scoreMessage.text("You are a prety smart cookie");
   } else {
     scoreMessage.text("You are sort of a genius");
