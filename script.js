@@ -9,7 +9,7 @@ const questionCurrent = $("#question-current");
 const questionTotal = $("#question-total");
 const answerButton = $(".answer-btn");
 const scoreCurrent = $("#score");
-const finalScore = $("#score-final");
+const scoreFinal = $("#score-final");
 const scoreTotal = $("#score-max");
 const restartButton = $(".restart-btn");
 const scoreMessage = $(".score-message");
@@ -115,6 +115,7 @@ function loadQuestion() {
     answerContainer.append(button);
     button.dataset.correct = answer.correct;
   });
+  $(".answer-btn").on("click", answerEvent());
   awaitAnswer();
 }
 
@@ -123,7 +124,7 @@ function updateProgress() {
   questionTotal.text(quizQuestions.length);
   scoreCurrent.text(score);
   let progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
-  progressBar.css("width", progressPercent);
+  progressBar.css("width", progressPercent + "%");
 }
 
 function awaitAnswer() {
@@ -133,8 +134,6 @@ function awaitAnswer() {
 function answerEvent() {
   return (event) => {
     let answer = event.target.dataset.correct;
-    console.log("I am at " + currentQuestionIndex + " question");
-    console.log("there is " + quizQuestions.length + " questions");
     if (answer === "true") {
       animateResult(answer, event);
     } else {
@@ -148,19 +147,40 @@ function animateResult(answer, event) {
   if (answer === "true") {
     event.target.classList.add("correct");
     score++;
-
     if (currentQuestionIndex === quizQuestions.length - 1) {
       quizScreen.removeClass("active");
       finishScreen.addClass("active");
+      generateResult();
     } else {
       currentQuestionIndex++;
-      $(".answer-btn").on("click", answerEvent());
       setTimeout(loadQuestion, 1000);
     }
   } else if (answer === "false") {
-    event.target.classList.add("wrong");
-    currentQuestionIndex++;
-    setTimeout(loadQuestion, 1000);
+    if (currentQuestionIndex === quizQuestions.length - 1) {
+      quizScreen.removeClass("active");
+      finishScreen.addClass("active");
+      generateResult();
+    } else {
+      event.target.classList.add("wrong");
+      currentQuestionIndex++;
+      setTimeout(loadQuestion, 1000);
+    }
+  }
+}
+
+function generateResult() {
+  scoreFinal.text(score);
+  scoreTotal.text(quizQuestions.length);
+  if (scoreFinal.text() === 1) {
+    scoreMessage.text("You are as dumb as a dolphin");
+  } else if (scoreFinal.text() === 2) {
+    scoreMessage.text("You should realy learn some more");
+  } else if (scoreFinal.text() === 3) {
+    scoreMessage.text("You are not so dumb");
+  } else if (scoreFinal.text() === 4) {
+    scoreMessage.text("You are a prety smart cookie");
+  } else {
+    scoreMessage.text("You are sort of a genius");
   }
 }
 
