@@ -112,11 +112,11 @@ function loadQuestion() {
     let button = document.createElement("div");
     button.innerText = answer.text;
     button.classList.add("answer-btn");
-    answerContainer.append(button);
     button.dataset.correct = answer.correct;
+    button.addEventListener("click", answerEvent);
+    answerContainer.append(button);
   });
-  $(".answer-btn").on("click", answerEvent());
-  awaitAnswer();
+  answersDisabled = false;
 }
 
 function updateProgress() {
@@ -127,20 +127,18 @@ function updateProgress() {
   progressBar.css("width", progressPercent + "%");
 }
 
-function awaitAnswer() {
-  $(".answer-btn").on("click", answerEvent());
-}
-
-function answerEvent() {
-  return (event) => {
+function answerEvent(event) {
+  console.log(answersDisabled);
+  if (answersDisabled) return;
+  else {
+    answersDisabled = true;
     let answer = event.target.dataset.correct;
     if (answer === "true") {
       animateResult(answer, event);
     } else {
       animateResult(answer, event);
     }
-    $(".answer-btn").off("click", answerEvent());
-  };
+  }
 }
 
 function animateResult(answer, event) {
@@ -171,13 +169,13 @@ function animateResult(answer, event) {
 function generateResult() {
   scoreFinal.text(score);
   scoreTotal.text(quizQuestions.length);
-  if (scoreFinal.text() === 1) {
+  if (scoreFinal.text() === "1") {
     scoreMessage.text("You are as dumb as a dolphin");
-  } else if (scoreFinal.text() === 2) {
+  } else if (scoreFinal.text() === "2") {
     scoreMessage.text("You should realy learn some more");
-  } else if (scoreFinal.text() === 3) {
+  } else if (scoreFinal.text() === "3") {
     scoreMessage.text("You are not so dumb");
-  } else if (scoreFinal.text() === 4) {
+  } else if (scoreFinal.text() === "4") {
     scoreMessage.text("You are a prety smart cookie");
   } else {
     scoreMessage.text("You are sort of a genius");
