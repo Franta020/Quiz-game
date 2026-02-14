@@ -107,65 +107,66 @@ function loadQuestion() {
   const currentQuestion = quizQuestions[currentQuestionIndex];
   questionText.text(currentQuestion.question);
   updateProgress();
-  answerContainer.empty();  
-  currentQuestion.answers.forEach((answer) => { 
-        let button = document.createElement("div");
-        button.innerText = answer.text;
-        button.classList.add("answer-btn");
-        answerContainer.append(button);
-        console.log(button.text);
-        button.dataset.correct = answer.correct;
-    })
-    checkAnswer();
-  }
-  
+  answerContainer.empty();
+  currentQuestion.answers.forEach((answer) => {
+    let button = document.createElement("div");
+    button.innerText = answer.text;
+    button.classList.add("answer-btn");
+    answerContainer.append(button);
+    button.dataset.correct = answer.correct;
+  });
+  awaitAnswer();
+}
 
 function updateProgress() {
-  questionCurrent.text(currentQuestionIndex +1);
+  questionCurrent.text(currentQuestionIndex + 1);
   questionTotal.text(quizQuestions.length);
   scoreCurrent.text(score);
-  let progressPercent = (currentQuestionIndex / quizQuestions.length)  * 100;
-  console.log(progressPercent);
+  let progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
   progressBar.css("width", progressPercent);
 }
 
-function checkAnswer () {
-    $(".answer-btn").on("click", (event) => {
-      let answer = event.target.dataset.correct
-      if (answer === "true")
-      {
-        animateResult(answer, event);
+function awaitAnswer() {
+  $(".answer-btn").on("click", answerEvent());
+}
 
-      }
-      else {
-        animateResult(answer, event);
-      }
-      
-       $(".answer-btn").off("click"); 
-   })
-      
-  }
-
-  function animateResult(answer, event) {
-    if (answer === "true")
-    {
-      event.target.classList.add("correct");
-      score ++;
-      currentQuestionIndex ++;
-      loadQuestion();
+function answerEvent() {
+  return (event) => {
+    let answer = event.target.dataset.correct;
+    console.log("I am at " + currentQuestionIndex + " question");
+    console.log("there is " + quizQuestions.length + " questions");
+    if (answer === "true") {
+      animateResult(answer, event);
+    } else {
+      animateResult(answer, event);
     }
-    else if (answer === "false") {
-      event.target.classList.add("wrong");
-      console.log("wrong");
+    $(".answer-btn").off("click", answerEvent());
+  };
+}
+
+function animateResult(answer, event) {
+  if (answer === "true") {
+    event.target.classList.add("correct");
+    score++;
+
+    if (currentQuestionIndex === quizQuestions.length - 1) {
+      quizScreen.removeClass("active");
+      finishScreen.addClass("active");
+    } else {
+      currentQuestionIndex++;
+      $(".answer-btn").on("click", answerEvent());
+      setTimeout(loadQuestion, 1000);
     }
+  } else if (answer === "false") {
+    event.target.classList.add("wrong");
+    currentQuestionIndex++;
+    setTimeout(loadQuestion, 1000);
   }
+}
 
-  function resetScore()
-  {
-    currentQuestionIndex = 0;
-    score = 0;
-    scoreCurrent.text(score);
-    questionCurrent.text(currentQuestionIndex +1 );
-  }
-
-
+function resetScore() {
+  currentQuestionIndex = 0;
+  score = 0;
+  scoreCurrent.text(score);
+  questionCurrent.text(currentQuestionIndex + 1);
+}
